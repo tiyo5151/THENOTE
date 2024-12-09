@@ -1,25 +1,30 @@
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { NewMemoModalProps } from '@/app/types/types';
 
-interface NewMemoModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onCreateMemo: (title: string) => void
-}
-
-export function NewMemoModal({ isOpen, onClose, onCreateMemo }: NewMemoModalProps) {
-  const [title, setTitle] = useState('')
+export function NewMemoModal({
+  isOpen,
+  onClose,
+  onCreateMemo,
+}: NewMemoModalProps) {
+  const [title, setTitle] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (title.trim()) {
-      onCreateMemo(title.trim())
-      setTitle('')
-      onClose()
+      onCreateMemo(title.trim());
+      setTitle('');
+      onClose();
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -40,6 +45,5 @@ export function NewMemoModal({ isOpen, onClose, onCreateMemo }: NewMemoModalProp
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

@@ -7,45 +7,30 @@ import { NewMemoModal } from '@/components/NewMemoModal';
 import { Button } from '@/components/ui/button';
 import { Key, Plus } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-
-interface Memo {
-  id: string;
-  position: string;
-  title: string;
-  content: string;
-}
+import { Note, handleNotesProps } from '@/app/types/types';
 
 export default function Home() {
-  const [notes, setNotes] = useState({});
-  // const [selectedMemoId, setSelectedMemoId] = useState<string | null>(null);
+  // notes = [{id: '1', title: 'Note 1', content: ["Today's dinner is curry","delicious!!!"]}, {id: '2', title: 'Note 2', content: ["Hello", "World"]}]
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [selectedMemoId, setSelectedMemoId] = useState<string | null>(null);
   const [isNewMemoModalOpen, setIsNewMemoModalOpen] = useState(false);
   const [title, setTitle] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);
 
-  // const handleNewMemo = (title: string) => {
-  //   const newMemo: Memo = {
-  //     id: uuidv4(),
-  //     position: uuidv4 + title,
-  //     content: '',
-  //   };
-  //   setMemos([...memos, newMemo]);
-  // };
-
-  const handleNewNote = (title: string, content: string) => {
-    const newNote = {
-      [uuidv4()]: {
-        position: uuidv4(),
-        title,
-        content,
-      },
+  const handleNewNote = (
+    id: string,
+    title: string,
+    content: string
+  ): handleNotesProps => {
+    const newNote: Note = {
+      id: uuidv4(),
+      title: title,
+      content: [content],
     };
-    setNotes((prevNotes) => ({
-      ...prevNotes,
-      [Object.keys(newNote)[0]]: newNote[Object.keys(newNote)[0]],
-    }));
+    setNotes([...notes, newNote]);
   };
 
-  // const selectedMemo=;
+  const selectedMemo = notes.find((note) => note.id === selectedMemoId);
 
   return (
     <div className="flex flex-col h-screen">
