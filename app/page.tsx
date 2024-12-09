@@ -1,40 +1,58 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Header } from '@/components/Header'
-import { Sidebar } from '@/components/Sidebar'
-import { NewMemoModal } from '@/components/NewMemoModal'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { useState } from 'react';
+import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
+import { NewMemoModal } from '@/components/NewMemoModal';
+import { Button } from '@/components/ui/button';
+import { Key, Plus } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Memo {
-  id: string
-  title: string
-  content: string
+  id: string;
+  position: string;
+  title: string;
+  content: string;
 }
 
 export default function Home() {
-  const [memos, setMemos] = useState<Memo[]>([])
-  const [selectedMemoId, setSelectedMemoId] = useState<string | null>(null)
-  const [isNewMemoModalOpen, setIsNewMemoModalOpen] = useState(false)
+  const [notes, setNotes] = useState({});
+  // const [selectedMemoId, setSelectedMemoId] = useState<string | null>(null);
+  const [isNewMemoModalOpen, setIsNewMemoModalOpen] = useState(false);
+  const [title, setTitle] = useState<string | null>(null);
+  const [content, setContent] = useState<string | null>(null);
 
-  const handleNewMemo = (title: string) => {
-    const newMemo: Memo = {
-      id: Date.now().toString(),
-      title,
-      content: '',
-    }
-    setMemos([...memos, newMemo])
-  }
+  // const handleNewMemo = (title: string) => {
+  //   const newMemo: Memo = {
+  //     id: uuidv4(),
+  //     position: uuidv4 + title,
+  //     content: '',
+  //   };
+  //   setMemos([...memos, newMemo]);
+  // };
 
-  const selectedMemo = memos.find(memo => memo.id === selectedMemoId)
+  const handleNewNote = (title: string, content: string) => {
+    const newNote = {
+      [uuidv4()]: {
+        position: uuidv4(),
+        title,
+        content,
+      },
+    };
+    setNotes((prevNotes) => ({
+      ...prevNotes,
+      [Object.keys(newNote)[0]]: newNote[Object.keys(newNote)[0]],
+    }));
+  };
+
+  // const selectedMemo=;
 
   return (
     <div className="flex flex-col h-screen">
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
-          memos={memos}
+          notes={notes}
           onMemoSelect={setSelectedMemoId}
           onNewMemo={() => setIsNewMemoModalOpen(true)}
         />
@@ -45,7 +63,9 @@ export default function Home() {
               <p>{selectedMemo.content}</p>
             </div>
           ) : (
-            <p className="text-center text-gray-500 mt-10">Select a memo or create a new one</p>
+            <p className="text-center text-gray-500 mt-10">
+              Select a memo or create a new one
+            </p>
           )}
         </main>
       </div>
@@ -59,9 +79,8 @@ export default function Home() {
       <NewMemoModal
         isOpen={isNewMemoModalOpen}
         onClose={() => setIsNewMemoModalOpen(false)}
-        onCreateMemo={handleNewMemo}
+        onCreateMemo={handleNewNote}
       />
     </div>
-  )
+  );
 }
-
