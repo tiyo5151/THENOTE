@@ -1,11 +1,14 @@
+interface text {
+  text: string;
+}
+// ノートの型定義
 interface Note {
   id: string;
   title: string;
-  content: string[];
+  content: text[];
 }
 
 interface handleNotesProps {
-  id: string | null;
   title: string | null;
   content: string | null;
 }
@@ -13,7 +16,7 @@ interface handleNotesProps {
 interface NewMemoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreateMemo: (title: string) => void;
+  onCreateMemo: (title: string, content: string) => void;
 }
 
 export type { Note, handleNotesProps, NewMemoModalProps };

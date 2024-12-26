@@ -5,39 +5,33 @@ import { Header } from '@/components/Header';
 import { Sidebar } from '@/components/Sidebar';
 import { NewMemoModal } from '@/components/NewMemoModal';
 import { Button } from '@/components/ui/button';
-import { Key, Plus } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
-import { Note, handleNotesProps } from '@/app/types/types';
+import { Plus } from 'lucide-react';
+import { v4 as uuid } from 'uuid';
+import { Content } from '@radix-ui/react-dialog';
+import { Note } from './types/types';
 
 export default function Home() {
-  // notes = [{id: '1', title: 'Note 1', content: ["Today's dinner is curry","delicious!!!"]}, {id: '2', title: 'Note 2', content: ["Hello", "World"]}]
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedMemoId, setSelectedMemoId] = useState<string | null>(null);
   const [isNewMemoModalOpen, setIsNewMemoModalOpen] = useState(false);
-  const [title, setTitle] = useState<string | null>(null);
-  const [content, setContent] = useState<string | null>(null);
 
-  const handleNewNote = (
-    id: string,
-    title: string,
-    content: string
-  ): handleNotesProps => {
+  const handleNewNote = (title: string, content: string) => {
     const newNote: Note = {
-      id: uuidv4(),
+      id: uuid(),
       title: title,
-      content: [content],
+      content: [{ text: content }],
     };
     setNotes([...notes, newNote]);
   };
 
-  const selectedMemo = notes.find((note) => note.id === selectedMemoId);
+  const selectedMemo = notes.find((memo) => memo.id === selectedMemoId);
 
   return (
     <div className="flex flex-col h-screen">
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
-          notes={notes}
+          memos={notes}
           onMemoSelect={setSelectedMemoId}
           onNewMemo={() => setIsNewMemoModalOpen(true)}
         />
