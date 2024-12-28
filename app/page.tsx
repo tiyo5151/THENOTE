@@ -4,6 +4,7 @@ import NoteDisplay from '@/components/NoteDisplay';
 import Sidebar from '@/components/Sidebar';
 
 const Home = async () => {
+  'use server';
   const res = await fetch('http://localhost:3001/notes');
   const notes: Note[] = await res.json();
   return (
