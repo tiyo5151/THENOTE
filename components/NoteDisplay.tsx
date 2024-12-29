@@ -1,6 +1,7 @@
+import { NoteDisplayProp } from '@/app/types/NoteDisplay';
 import React from 'react';
 
-const NoteDisplay = (notes) => {
+const NoteDisplay: React.FC<NoteDisplayProp> = ({ notes, selectNote }) => {
   return (
     <div className="container flex glow-1 h-full  justify-center items-end py-4 px-6">
       <div className="flex">
