@@ -7,7 +7,7 @@ const Sidebar: React.FC<SidebarProp> = ({
   setSelectNote,
 }) => {
   return (
-    <div className="flex justify-center items-start px-2 py-4 w-64 min-w-32 h-full bg-white border-grey-400 border-r-2">
+    <div className="flex justify-center items-start px-2 py-4 w-64 min-w-32 h-full bg-white border-grey-400 border-r-2 overflow-y-scroll">
       <ul className="flex flex-col justify-start items-center w-full h-full">
         {notes.map((note) => (
           <li
