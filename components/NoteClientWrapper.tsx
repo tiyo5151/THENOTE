@@ -7,7 +7,7 @@ import NoteDisplay from './NoteDisplay';
 
 const NoteClientWrapper: React.FC<{ notes: Note[] }> = ({ notes }) => {
   const [selectNote, setSelectNote] = useState<string | null>(null);
-
+  const selectNoteContent = notes.find((note) => note.id === selectNote);
   return (
     <div className="flex flex-col h-screen w-screen">
       <Header />
@@ -17,7 +17,7 @@ const NoteClientWrapper: React.FC<{ notes: Note[] }> = ({ notes }) => {
           selectNote={selectNote}
           setSelectNote={setSelectNote}
         />
-        <NoteDisplay notes={notes} selectedNote={selectNote} />
+        <NoteDisplay selectNoteContent={selectNoteContent} />
       </div>
     </div>
   );

@@ -1,11 +1,16 @@
 import { NoteDisplayProp } from '@/app/types/NoteDisplay';
 import React from 'react';
 
-const NoteDisplay: React.FC<NoteDisplayProp> = ({ notes, selectNote }) => {
+const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
   return (
-    <div className="container flex glow-1 h-full  justify-center items-end py-4 px-6">
-      <div className="flex">
-        <div className="flex items-start"></div>
+    <div className="container flex flex-col glow-1 h-full  justify-center items-end py-4 px-6">
+      <div className="flex items-start flex-col">
+        <div className="flex">{selectNoteContent?.title}</div>
+        {selectNoteContent?.content.map((content, index) => (
+          <div key={index} className="flex">
+            {content.text}
+          </div>
+        ))}
       </div>
       <div className="flex flex-col justify-center items-center h-72 w-full border-grey-400 border-2 rounded-xl">
         <div className="flex glow-1"></div>
