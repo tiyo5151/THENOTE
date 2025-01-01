@@ -6,11 +6,14 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
   return (
     <div className="container flex flex-col glow-1 h-full justify-center items-end py-4 px-6 overflow-y-scroll">
       <div className="flex grow justify-start items-center flex-col mb-4 h-auto w-full">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center font-bold text-2xl">
           {selectNoteContent?.title}
         </div>
         {selectNoteContent?.content.map((content, index) => (
-          <div key={index} className="flex justify-center items-center">
+          <div
+            key={index}
+            className="flex justify-start items-start border-solid border-2 border-gray-300 rounded-xl p-2 my-2 w-full pb-4"
+          >
             {content.text}
           </div>
         ))}
