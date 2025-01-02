@@ -7,7 +7,7 @@ const Sidebar: React.FC<SidebarProp> = ({
   setSelectNote,
 }) => {
   return (
-    <div className="flex justify-center items-start px-2 py-4 w-64 min-w-32 h-full bg-white border-grey-400 border-r-2 overflow-y-scroll">
+    <div className="z-0 flex flex-col justify-center items-start px-2 py-4 w-64 min-w-32 h-full bg-white border-grey-400 border-r-2 overflow-y-scroll">
       <ul className="flex flex-col justify-start items-center w-full h-full">
         {notes.map((note) => (
           <li
@@ -25,6 +25,9 @@ const Sidebar: React.FC<SidebarProp> = ({
           </li>
         ))}
       </ul>
+      <button className="z-10 sticky left-32  bottom-1 text-white bg-black px-1 py-2 b-1 rounded-md">
+        Add Note
+      </button>
     </div>
   );
 };
