@@ -1,6 +1,7 @@
 'use client';
 import { NoteDisplayProp } from '@/app/types/NoteDisplay';
 import React from 'react';
+import { PencilLine } from 'lucide-react';
 
 const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
   return (
@@ -8,6 +9,7 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
       <div className="flex grow justify-start items-center flex-col mb-4 h-auto w-full">
         <div className="flex justify-center items-center font-bold text-2xl">
           {selectNoteContent?.title}
+          {selectNoteContent != undefined && <PencilLine />}{' '}
         </div>
         {selectNoteContent?.content.map((content, index) => (
           <div
