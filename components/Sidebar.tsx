@@ -23,7 +23,6 @@ const Sidebar: React.FC<SidebarProp> = ({
           >
             {note.title}
           </li>
-
         ))}
       </ul>
       <button className="z-10 sticky left-32  bottom-1 text-white bg-black px-1 py-2 b-1 rounded-md">
