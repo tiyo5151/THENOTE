@@ -1,9 +1,9 @@
 'use client';
 import { Note } from '@/app/types/types';
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import NoteDisplay from '../components/NoteDisplay';
-import Sidebar from '../components/Sidebar';
+import Header from '@/app/components/Header';
+import NoteDisplay from '@/app/components/NoteDisplay';
+import Sidebar from '@/app/components/Sidebar';
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);

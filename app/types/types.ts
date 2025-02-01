@@ -1,4 +1,5 @@
 interface text {
+  id: string;
   text: string;
 }
 // ノートの型定義
