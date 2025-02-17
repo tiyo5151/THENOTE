@@ -10,17 +10,16 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
   updateNoteContent,
   deleteNote,
 }) => {
+  if (!selectNote) {
+    return <div>ようこそTheNoteへ</div>;
+  }
   return (
     <div className="container flex flex-col glow-1 h-full justify-center items-end py-4 px-6 overflow-y-scroll">
       <div className="flex grow justify-start items-center flex-col mb-4 h-auto w-full">
         <div className="flex justify-center items-center font-bold text-2xl">
           {selectNoteContent?.title}
-          {selectNoteContent != undefined && (
-            <>
-              <PencilLine />
-              <Trash2 onClick={() => deleteNote(selectNote)} />
-            </>
-          )}
+          <PencilLine />
+          <Trash2 onClick={() => deleteNote(selectNote)} />
         </div>
         {selectNoteContent?.content.map((content, index) => (
           <div

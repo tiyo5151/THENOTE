@@ -10,7 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectNote, setSelectNote] = useState<string | null>(null);
-  const [hoveNote, setHoverNote] = useState<string | null>(null);
+  const [hoverNote, setHoverNote] = useState<string | null>(null);
   const selectNoteContent = notes.find((note) => note.id === selectNote);
 
   useEffect(() => {
@@ -58,6 +58,7 @@ export default function Home() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete note');
     }
+    setSelectNote(null);
   };
 
   const updateNoteContent = async (noteId: string | null, text: string) => {
