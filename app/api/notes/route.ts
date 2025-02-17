@@ -2,11 +2,12 @@ import { Note } from '@/app/types/types';
 import { NextResponse } from 'next/server';
 import { v4 as uuid } from 'uuid';
 
+const API_ENDPOINT = 'http://localhost:3001/notes';
+
 async function getNotes() {
-  const res = await fetch('http://localhost:3001/notes', {
+  const res = await fetch(API_ENDPOINT, {
     cache: 'no-store',
   });
-
   if (!res.ok) {
     throw new Error('Failed to fetch notes');
   }
@@ -20,40 +21,58 @@ export async function GET() {
 
 export async function POST() {
   const noteId = uuid();
-  const res = await fetch('http://localhost:3001/notes', {
+  const newNote: Note = {
+    id: noteId,
+    title: 'New Note',
+    content: [{ id: `${noteId}0`, text: 'New Note' }],
+  };
+
+  const res = await fetch(API_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: noteId,
-      title: 'New Note',
-      content: [{ id: `${noteId}0`, text: 'New Note' }],
-    }),
+    body: JSON.stringify(newNote),
   });
+
   if (!res.ok) {
     throw new Error('Failed to create note');
   }
-  return NextResponse.redirect('/notes');
+  return NextResponse.json(await res.json());
 }
 
-// 内容追加
 export async function PATCH(request: Request) {
   const { noteId, text } = await request.json();
   const notes = await getNotes();
   const note = notes.find((n) => n.id === noteId);
 
-  const newContent = {
+  if (!note) {
+    return NextResponse.error();
+  }
+
+  note.content.push({
     id: `${noteId}${note.content.length}`,
     text: text,
-  };
+  });
 
-  note.content.push(newContent);
-  // 更新処理
+  const res = await fetch(`${API_ENDPOINT}/${noteId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(note),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update note');
+  }
+  return NextResponse.json(await res.json());
 }
 
 export async function DELETE(request: Request) {
   const { noteId } = await request.json();
-  const notes = await getNotes();
-  const noteIndex = notes.findIndex((n) => n.id === noteId);
-  notes.splice(noteIndex, 1);
-  // 削除処理
+  const res = await fetch(`${API_ENDPOINT}/${noteId}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to delete note');
+  }
+  return NextResponse.json({ success: true });
 }

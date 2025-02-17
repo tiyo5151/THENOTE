@@ -2,14 +2,25 @@
 import { NoteDisplayProp } from '@/app/types/NoteDisplay';
 import React from 'react';
 import { PencilLine } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
-const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
+const NoteDisplay: React.FC<NoteDisplayProp> = ({
+  selectNote,
+  selectNoteContent,
+  updateNoteContent,
+  deleteNote,
+}) => {
   return (
     <div className="container flex flex-col glow-1 h-full justify-center items-end py-4 px-6 overflow-y-scroll">
       <div className="flex grow justify-start items-center flex-col mb-4 h-auto w-full">
         <div className="flex justify-center items-center font-bold text-2xl">
           {selectNoteContent?.title}
-          {selectNoteContent != undefined && <PencilLine />}{' '}
+          {selectNoteContent != undefined && (
+            <>
+              <PencilLine />
+              <Trash2 onClick={() => deleteNote(selectNote)} />
+            </>
+          )}
         </div>
         {selectNoteContent?.content.map((content, index) => (
           <div
@@ -25,7 +36,12 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({ selectNoteContent }) => {
         <div className="border-t border-gray-300 w-[90%] my-4"></div>
         <div className="flex h-[60%] w-full"></div>
         <div className="border-t border-gray-300 w-[90%] my-4"></div>
-        <div className="flex glow-1"></div>
+        <div className="flex glow-1">
+          <div className="flex justify-between items-center w-full px-4">
+            <div className="flex">buttons</div>
+            <button onClick={() => updateNoteContent(selectNote, 'Updated Content')}>add</button>
+          </div>
+        </div>
       </div>
     </div>
   );
