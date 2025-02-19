@@ -10,7 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectNote, setSelectNote] = useState<string | null>(null);
-  const [hoverNote, setHoverNote] = useState<string | null>(null);
+  // const [updateNoteContent, setUpdateNoteContent] = useState<string | null>(null);
   const selectNoteContent = notes.find((note) => note.id === selectNote);
 
   useEffect(() => {
