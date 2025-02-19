@@ -11,6 +11,8 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
   selectNoteContent,
   updateNoteContent,
   deleteNote,
+  noteContent,
+  setNoteContent,
 }) => {
   if (!selectNote) {
     return (
@@ -40,7 +42,14 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
         <div className="flex glow-1"></div>
         <div className="border-t border-gray-300 w-[90%] my-4"></div>
         <div className="flex h-[60%] w-full px-4">
-          <textarea name="note" rows={4} cols={40} className="flex w-full resize-none" />
+          <textarea
+            name="note"
+            rows={4}
+            cols={40}
+            className="flex w-full resize-none"
+            value={noteContent || ''}
+            onChange={(e) => setNoteContent(e.target.value)}
+          />
         </div>
         <div className="border-t border-gray-300 w-[90%] my-4"></div>
         <div className="flex glow-1 w-full">
@@ -50,7 +59,10 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
               <Paperclip className="cursor-pointer hover:text-gray-600" />
             </div>
             <button
-              onClick={() => updateNoteContent(selectNote, 'Updated Content')}
+              onClick={() => {
+                updateNoteContent(selectNote, noteContent || '');
+                setNoteContent('');
+              }}
               className="bg-black text-white px-4 py-1 rounded-md hover:bg-gray-800 transition-colors"
             >
               add

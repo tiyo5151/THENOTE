@@ -42,7 +42,7 @@ export async function POST() {
 export async function PATCH(request: Request) {
   const { noteId, text } = await request.json();
   const notes = await getNotes();
-  const note = notes.find((n: Note) => n.id === noteId);
+  const note = notes.find((n) => n.id === noteId);
 
   if (!note) {
     return NextResponse.error();

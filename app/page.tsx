@@ -10,7 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectNote, setSelectNote] = useState<string | null>(null);
-  // const [updateNoteContent, setUpdateNoteContent] = useState<string | null>(null);
+  const [noteContent, setNoteContent] = useState<string | null>(null);
   const selectNoteContent = notes.find((note) => note.id === selectNote);
 
   useEffect(() => {
@@ -95,6 +95,8 @@ export default function Home() {
           selectNoteContent={selectNoteContent}
           updateNoteContent={updateNoteContent}
           deleteNote={deleteNote}
+          noteContent={noteContent}
+          setNoteContent={setNoteContent}
         />
       </div>
     </div>
