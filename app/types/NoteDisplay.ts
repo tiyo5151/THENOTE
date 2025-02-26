@@ -5,6 +5,7 @@ export interface NoteDisplayProp {
   selectNoteContent: Note | undefined;
   updateNoteContent: (noteId: string | null, text: string) => Promise<void>;
   deleteNote: (noteId: string | null) => Promise<void>;
+  deleteNoteContent: (noteId: string | null, contentId: string) => Promise<void>;
   noteContent: string | null;
   setNoteContent: (content: string | null) => void;
 }

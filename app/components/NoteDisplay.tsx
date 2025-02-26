@@ -1,16 +1,14 @@
 'use client';
 import { NoteDisplayProp } from '@/app/types/NoteDisplay';
 import React from 'react';
-import { PencilLine } from 'lucide-react';
-import { Trash2 } from 'lucide-react';
-import { Image } from 'lucide-react';
-import { Paperclip } from 'lucide-react';
+import { PencilLine, Trash2, Image, Paperclip, X } from 'lucide-react';
 
 const NoteDisplay: React.FC<NoteDisplayProp> = ({
   selectNote,
   selectNoteContent,
   updateNoteContent,
   deleteNote,
+  deleteNoteContent,
   noteContent,
   setNoteContent,
 }) => {
@@ -22,7 +20,7 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
     );
   }
   return (
-    <div className="container flex flex-col glow-1 h-full justify-center items-end py-4 px-6 overflow-y-scroll">
+    <div className="container flex flex-col glow-1 justify-center items-end py-4 px-6 overflow-y-scroll h-full">
       <div className="flex grow justify-start items-center flex-col mb-4 h-auto w-full">
         <div className="flex justify-center items-center font-bold text-2xl">
           {selectNoteContent?.title}
@@ -32,9 +30,14 @@ const NoteDisplay: React.FC<NoteDisplayProp> = ({
         {selectNoteContent?.content.map((content, index) => (
           <div
             key={index}
-            className="flex justify-start items-start border-solid border-2 border-gray-300 rounded-xl p-2 my-2 w-full pb-4"
+            className="flex justify-between items-start border-solid border-2 border-gray-300 rounded-xl p-2 my-2 w-full pb-4"
           >
-            {content.text}
+            <div className="flex-grow">{content.text}</div>
+            <X
+              className="cursor-pointer text-gray-500 hover:text-red-500"
+              onClick={() => deleteNoteContent(selectNote, content.id)}
+              size={18}
+            />
           </div>
         ))}
       </div>

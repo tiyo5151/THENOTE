@@ -66,13 +66,44 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const { noteId } = await request.json();
-  const res = await fetch(`${API_ENDPOINT}/${noteId}`, {
-    method: 'DELETE',
-  });
+  const { noteId, contentId } = await request.json();
 
-  if (!res.ok) {
-    throw new Error('Failed to delete note');
+  // コンテンツアイテムの削除の場合
+  if (noteId && contentId) {
+    const notes = await getNotes();
+    const note = notes.find((n) => n.id === noteId);
+
+    if (!note) {
+      return NextResponse.json({ error: 'Note not found' }, { status: 404 });
+    }
+
+    // コンテンツアイテムを削除
+    note.content = note.content.filter((item) => item.id !== contentId);
+
+    // ノートを更新
+    const updateRes = await fetch(`${API_ENDPOINT}/${noteId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(note),
+    });
+
+    if (!updateRes.ok) {
+      throw new Error('Failed to update note after deleting content');
+    }
+
+    return NextResponse.json(note);
   }
-  return NextResponse.json({ success: true });
+  // ノート全体の削除の場合
+  else if (noteId) {
+    const res = await fetch(`${API_ENDPOINT}/${noteId}`, {
+      method: 'DELETE',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to delete note');
+    }
+    return NextResponse.json({ success: true });
+  } else {
+    return NextResponse.json({ error: 'Invalid request parameters' }, { status: 400 });
+  }
 }

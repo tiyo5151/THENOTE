@@ -7,7 +7,7 @@ import Sidebar from '@/app/components/Sidebar';
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectNote, setSelectNote] = useState<string | null>(null);
   const [noteContent, setNoteContent] = useState<string | null>(null);
@@ -78,6 +78,23 @@ export default function Home() {
     }
   };
 
+  const deleteNoteContent = async (noteId: string | null, contentId: string) => {
+    try {
+      const res = await fetch('api/notes', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ noteId, contentId }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to delete note content');
+      }
+      const updatedNote = await res.json();
+      setNotes((prevNotes) => prevNotes.map((note) => (note.id === noteId ? updatedNote : note)));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete note content');
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   return (
@@ -95,6 +112,7 @@ export default function Home() {
           selectNoteContent={selectNoteContent}
           updateNoteContent={updateNoteContent}
           deleteNote={deleteNote}
+          deleteNoteContent={deleteNoteContent}
           noteContent={noteContent}
           setNoteContent={setNoteContent}
         />
