@@ -19,12 +19,15 @@ export async function GET() {
   return NextResponse.json(notes);
 }
 
-export async function POST() {
+export async function POST(request: Request) {
+  const body = await request.json().catch(() => ({}));
   const noteId = uuid();
+  const title = body.title || 'New Note';
+
   const newNote: Note = {
     id: noteId,
-    title: 'New Note',
-    content: [{ id: `${noteId}0`, text: 'New Note' }],
+    title: title,
+    content: [{ id: `${noteId}0`, text: title }],
   };
 
   const res = await fetch(API_ENDPOINT, {

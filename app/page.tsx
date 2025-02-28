@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/app/components/Header';
 import NoteDisplay from '@/app/components/NoteDisplay';
 import Sidebar from '@/app/components/Sidebar';
+import Modal from '@/app/components/Modal';
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -11,6 +12,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [selectNote, setSelectNote] = useState<string | null>(null);
   const [noteContent, setNoteContent] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const selectNoteContent = notes.find((note) => note.id === selectNote);
 
   useEffect(() => {
@@ -31,9 +33,22 @@ export default function Home() {
     fetchNotes();
   }, []);
 
-  const addNote = async () => {
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const addNote = async (title: string) => {
     try {
-      const res = await fetch('api/notes', { method: 'POST' });
+      const res = await fetch('api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title }),
+      });
+
       if (!res.ok) {
         throw new Error('Failed to add note');
       }
@@ -105,7 +120,7 @@ export default function Home() {
           notes={notes}
           selectNote={selectNote}
           setSelectNote={setSelectNote}
-          addNote={addNote}
+          addNote={openModal}
         />
         <NoteDisplay
           selectNote={selectNote}
@@ -117,6 +132,7 @@ export default function Home() {
           setNoteContent={setNoteContent}
         />
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} onSubmit={addNote} />
     </div>
   );
 }
