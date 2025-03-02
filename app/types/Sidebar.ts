@@ -1,7 +1,8 @@
 import { Note } from './types';
+
 export interface SidebarProp {
   notes: Note[];
   selectNote: string | null;
-  setSelectNote: (noteId: string) => void;
+  setSelectNote: (id: string) => void;
   addNote: () => void;
 }

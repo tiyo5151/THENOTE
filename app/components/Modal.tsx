@@ -1,12 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (title: string) => void;
-}
+import { ModalProps } from '@/app/types/Modal';
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const [title, setTitle] = useState('');
